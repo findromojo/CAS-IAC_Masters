@@ -204,6 +204,19 @@ resource "aws_s3_bucket" "public-bucket-oops" {
   })
 }
 
+
+resource "aws_s3_bucket" "public-bucket-oops_log_bucket" {
+  bucket = "public-bucket-oops-log-bucket"
+}
+
+resource "aws_s3_bucket_logging" "public-bucket-oops" {
+  bucket = aws_s3_bucket.public-bucket-oops.id
+
+  target_bucket = aws_s3_bucket.public-bucket-oops_log_bucket.id
+  target_prefix = "log/"
+}
+
+
 resource "aws_s3_bucket_public_access_block" "private_access" {
   bucket = aws_s3_bucket.my-private-bucket.id
 
